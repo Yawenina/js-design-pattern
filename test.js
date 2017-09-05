@@ -7,6 +7,7 @@ import Employee, {
   Temporary, 
   Contractor 
 } from './factory';
+import Iterator from './iterator';
 
 // singleton
 const jelly = new Singleton('jelly');
@@ -41,4 +42,40 @@ test('factory: temporary', (t) => {
 });
 test('factory: contractor', (t) => {
   t.is(contractor.description(), 'Contractor rates 15/hour');
+});
+
+// Iterator
+const strIterator = new Iterator('hello');
+const arrIterator = new Iterator([1, 2, 3]);
+const objIterator = new Iterator({ name: 'JavaScript', birthYear: 1995 });
+
+test('iterator: string', (t) => {
+  t.is(strIterator.next(), 'h');
+  t.is(strIterator.next(), 'e');
+  t.is(strIterator.next(), 'l');
+  t.is(strIterator.next(), 'l');
+  t.is(strIterator.next(), 'o');
+  t.is(strIterator.next(), undefined);
+  // t.true(strIterator.done);
+  strIterator.rewind();
+  t.is(strIterator.current(), 'h');
+});
+
+test('iterator: arr', (t) => {
+  t.is(arrIterator.next(), 1);
+  t.is(arrIterator.next(), 2);
+  t.is(arrIterator.next(), 3);
+  t.is(arrIterator.next(), undefined);
+  // t.true(arrIterator.done);
+  arrIterator.rewind();
+  t.is(arrIterator.current(), 1);
+});
+
+test('iterator: obj', (t) => {
+  t.is(objIterator.next(), 'JavaScript');
+  t.is(objIterator.next(), 1995);
+  t.is(objIterator.next(), undefined);
+  // t.true(objIterator.done);
+  objIterator.rewind();
+  t.is(objIterator.current(), 'JavaScript');
 });

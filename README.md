@@ -20,3 +20,10 @@
   - 提供`next()`, `done`，`rewind()`, `current()`等方法和属性
   - ES6中的数组、字符串、`Arguments`, `DOM Elements` 等已配置迭代器
 
+## 装饰者模式(Decorator)
+应用场景：运行过程中动态添加功能；
+实现：
+  - `decoratorsList`字段记录装饰者；
+  - `decorate` 方法向 `decoratorsList`字段追加装饰者；
+  - `decorators`字段记录每个追加功能的实现；
+  - 调用某个方法的时候，遍历`decoratorsList`字段

@@ -53,4 +53,4 @@ Employee.registerType('partime', Parttime);
 Employee.registerType('temporary', Temporary);
 Employee.registerType('contractor', Contractor);
 
-export { Employee as default, Parttime, Temporary, Contractor };
+export default Employee;

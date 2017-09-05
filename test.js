@@ -1,15 +1,11 @@
 import test from 'ava';
 
 import Singleton from './singleton';
-import Employee, { 
-  Fulltime, 
-  Parttime, 
-  Temporary, 
-  Contractor 
-} from './factory';
+import Employee from './factory';
 import Iterator from './iterator';
+import Sale from './decorator';
 
-// singleton
+// Singleton
 const jelly = new Singleton('jelly');
 const nina = new Singleton('nina');
 
@@ -18,7 +14,7 @@ test('singleton: two objects is the same', (t) => {
 });
 
 
-// factory
+// Factory
 const fulltime = Employee.create('fulltime');
 const parttime = Employee.create('partime');
 const temporary = Employee.create('temporary');
@@ -78,4 +74,26 @@ test('iterator: obj', (t) => {
   // t.true(objIterator.done);
   objIterator.rewind();
   t.is(objIterator.current(), 'JavaScript');
+});
+
+// Decorator
+const sale = new Sale();
+test('decorator: get correct price', (t) => {
+  sale.decorate('fedtax');
+  sale.decorate('quebec');
+  sale.decorate('money');
+  t.is(sale.getPrice(), '$112.88');
+});
+
+test('decorator: throw error if decorator not exist', (t) => {
+  t.throws(() => {
+    sale.decorate('luxury');
+  });
+});
+
+test('decorator: throw error if decorator method not exist', (t) => {
+  sale.decorate('duty');
+  t.throws(() => {
+    sale.getPrice();
+  });
 });

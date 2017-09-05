@@ -27,3 +27,10 @@
   - `decorate` 方法向 `decoratorsList`字段追加装饰者；
   - `decorators`字段记录每个追加功能的实现；
   - 调用某个方法的时候，遍历`decoratorsList`字段
+
+## 策略模式(strategy)
+应用场景：在运行时选择算法。常用于表单验证中。
+实现：
+  - 由`validator`来制定相应的策略；
+  - 该对象包含`config`, `types`字段对算法进行配置；
+  - `validate`, `hasErrors`提供对外接口

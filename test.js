@@ -5,6 +5,8 @@ import Employee from './patterns/factory';
 import Iterator from './patterns/iterator';
 import Sale from './patterns/decorator';
 import validator from './patterns/strategy';
+import { Participant, chatroom } from './patterns/mediator';
+import makePubliser from './patterns/observer';
 
 // Singleton
 const jelly = new Singleton('jelly');
@@ -127,5 +129,51 @@ test('strategy: fail isAlphaNum in username', (t) => {
 });
 
 test('startegy: fail all validations', (t) => {
-  t.is(validator.validate(baz), `the value cannot be empty\nthe value can only be a valid number\nthe value cannot be empty`);
+  t.is(validator.validate(baz), 'the value cannot be empty\nthe value can only be a valid number\nthe value cannot be empty');
 });
+
+
+// Mediator
+const Lily = new Participant('Lily');
+const Jelly = new Participant('Jelly');
+chatroom.register(Lily);
+chatroom.register(Jelly);
+test('mediator: Jelly recieve greet from Lily', (t) => {
+  Lily.send('Hello Jelly!', Jelly);
+  t.is(Jelly.messages[0], 'Lily to Jelly: Hello Jelly!');
+});
+test('mediator: Lily recieve greet from Jelly', (t) => {
+  Jelly.send('Hello Lily!', Lily);
+  t.is(Lily.messages[0], 'Jelly to Lily: Hello Lily!');
+});
+test('mediator: Lily recieve greet from Jelly', (t) => {
+  Jelly.send('Hello Guys!');
+  t.is(Lily.messages[1], 'Jelly to Lily: Hello Guys!');
+});
+
+// Observer
+// TODO: implement tests
+
+// make a paper oberserver
+const paper = {
+  daily() {
+    this.publish('big news today');
+  },
+  monthly() {
+    this.publish('interesting analysis', 'monthly');
+  },
+};
+makePubliser(paper);
+
+// make a oberserver
+const Nina = {
+  drinkCoffee(paper) {
+    console.log(`just read ${paper}`);
+  },
+  sundayPreNap(monthly) {
+    console.log(`About to fall asleep reading this ${monthly}`);
+  },
+};
+
+paper.subscribe(Nina.drinkCoffee);
+paper.subscribe(Nina.sundayPreNap, 'monthly');
